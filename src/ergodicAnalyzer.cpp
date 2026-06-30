@@ -1,4 +1,4 @@
-#include "include/ergodicAnalyzer.h"
+#include "../include/ergodicAnalyzer.h"
 
 
 double Analyzer::birkhoffAverage(double x0, int N, const std::function<double(double)>& f) const {

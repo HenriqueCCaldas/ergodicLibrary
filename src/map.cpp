@@ -1,4 +1,4 @@
-#include "include/map.h"
+#include "../include/map.h"
 
 // Generate an orbit of length n starting from x0
 std::vector<double> Map::orbit(double x0, int n) const{

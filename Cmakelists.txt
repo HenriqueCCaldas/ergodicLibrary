@@ -1,4 +1,3 @@
-Cmakelists · TXT
 cmake_minimum_required(VERSION 3.16)
 project(ergodic_lib VERSION 1.0 LANGUAGES CXX)
  
@@ -15,8 +14,9 @@ add_compile_options(-Wall -Wextra)
  
 # --- Library target: everything except main.cpp ---
 add_library(ergodic_core
-    src/maps.cpp
+    src/map.cpp
     src/ergodicAnalyzer.cpp
+    src/classicMaps.cpp
 )
 target_include_directories(ergodic_core PUBLIC ${CMAKE_SOURCE_DIR}/include)
  
