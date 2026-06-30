@@ -1,0 +1,36 @@
+Cmakelists · TXT
+cmake_minimum_required(VERSION 3.16)
+project(ergodic_lib VERSION 1.0 LANGUAGES CXX)
+ 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+ 
+# Default to Release build with optimizations if nothing specified
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release)
+endif()
+ 
+add_compile_options(-Wall -Wextra)
+ 
+# --- Library target: everything except main.cpp ---
+add_library(ergodic_core
+    src/maps.cpp
+    src/ergodicAnalyzer.cpp
+)
+target_include_directories(ergodic_core PUBLIC ${CMAKE_SOURCE_DIR}/include)
+ 
+# --- Executable target ---
+add_executable(ergodic main.cpp)
+target_link_libraries(ergodic PRIVATE ergodic_core)
+target_compile_definitions(ergodic PRIVATE DATA_DIR="${CMAKE_SOURCE_DIR}/data/")
+ 
+# Ensure data/ exists for CSV output at runtime
+file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/data)
+ 
+# --- Tests (optional, enable with -DBUILD_TESTS=ON) ---
+option(BUILD_TESTS "Build unit tests" OFF)
+if(BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()

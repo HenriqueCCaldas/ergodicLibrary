@@ -1,0 +1,35 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, axes = plt.subplots(1, 3, figsize=(15, 4))
+
+# Birkhoff convergence
+df = pd.read_csv("data/birkhoff_convergence.csv", header=None, names=["n", "avg"])
+axes[0].plot(df["n"], df["avg"], lw=0.8)
+axes[0].axhline(0.5, color="red", linestyle="--", label="Space average = 0.5")
+axes[0].set_title("Birkhoff Average Convergence")
+axes[0].set_xlabel("N"); axes[0].set_ylabel("Running average")
+axes[0].legend()
+
+# Invariant measure
+df = pd.read_csv("data/invariant_measure.csv", header=None, names=["bin", "freq"])
+x = np.linspace(0.01, 0.99, 200)
+arcsine = 1 / (np.pi * np.sqrt(x * (1 - x)))
+arcsine /= arcsine.sum() / len(df)  # normalize to match histogram scale
+axes[1].bar(df["bin"], df["freq"], width=1, alpha=0.6, label="Empirical")
+axes[1].plot(np.linspace(0, 100, 200), arcsine, color="red", lw=1.5, label="Arcsine density")
+axes[1].set_title("Invariant Measure (Logistic r=4)")
+axes[1].set_xlabel("Bin"); axes[1].set_ylabel("Frequency")
+axes[1].legend()
+
+# Autocorrelation
+df = pd.read_csv("data/autocorrelation.csv", header=None, names=["lag", "corr"])
+axes[2].plot(df["lag"], df["corr"], marker="o", markersize=3)
+axes[2].axhline(0, color="red", linestyle="--")
+axes[2].set_title("Autocorrelation Decay")
+axes[2].set_xlabel("Lag n"); axes[2].set_ylabel("C(n)")
+
+plt.tight_layout()
+plt.savefig("data/ergodic_plots.png", dpi=150)
+print("Saved to data/ergodic_plots.png")
