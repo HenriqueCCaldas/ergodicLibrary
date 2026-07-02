@@ -4,22 +4,20 @@ A computational library for numerically investigating ergodic properties of disc
 
 ## Structure
 ```
-ergodic_lib/
+ergodicLibrary/
 ├── CMakeLists.txt
 ├── include/
 │   ├── map.h          # Abstract base class for all maps
 │   ├── classicMaps.h         # Concrete maps: Doubling (more to be added)
 │   └── ergodicAnalyzer.h     # Ergodic quantity computations
 ├── src/
-│   ├── map.cpp        # Map::orbit() implementation
-│   ├── ergodicAnalyzer.cpp        # Map::orbit() implementation
-│   └── classicMaps.cpp        #So far, empty
- 
-Analyzer.cpp   # Birkhoff, Lyapunov, measure, autocorrelation
+│   ├── map.cpp            # Map::orbit() implementation
+│   ├── ergodicAnalyzer.cpp # Birkhoff, Lyapunov, measure
+│   └── classicMaps.cpp    # Map implementations (in progress)
 ├── scripts/
-│   └── plot.py        # Matplotlib visualization
-├── data/              # CSV output (to be generated at runtime)
-└── main.cpp           # to demonstrate the current available map
+│   └── plot.py            # Matplotlib visualization
+├── data/                  # CSV output — generated at runtime, not tracked by git
+└── main.cpp               # Demo: currently available maps and modules
 ```
 
 ## Build & Run
@@ -28,18 +26,42 @@ Analyzer.cpp   # Birkhoff, Lyapunov, measure, autocorrelation
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build
 ./build/ergodic
-python3 scripts/plot.py   # requires matplotlib
+```
+
+To generate plots (requires matplotlib in a virtual environment):
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install matplotlib pandas
+cmake --build build --target plot
 ```
 
 To clean:
 ```bash
-rm -rf build data/*.csv data/*.png
+rm -rf build
 ```
 
 ## Modules
 
-| Module | What it computes | Expected result (Logistic r=4) |
+| Module | What it computes | Expected result (Doubling map) |
 |---|---|---|
 | Birkhoff average | (1/N) Σ f(Tⁿx₀) | Converges to 0.5 |
-| Invariant measure | Histogram of orbit visits | Arcsine distribution |
+| Invariant measure | Histogram of orbit visits | Lebesgue (uniform) measure |
 | Lyapunov exponent | (1/N) Σ log\|DT(xₙ)\| | ln 2 ≈ 0.693 |
+## Maps
+
+| Map | Definition | Invariant measure | Lyapunov exponent |
+|---|---|---|---|
+| Doubling | T(x) = 2x mod 1 | Lebesgue | ln 2 |
+| Logistic (r=4) | T(x) = 4x(1−x) | Arcsine 1/π√(x(1−x)) | ln 2 |
+| Gauss | T(x) = (1/x) mod 1 | Gauss 1/((1+x)ln2) | π²/6ln2 |
+
+*More maps to be added.*
+
+## C++ Design
+
+- Polymorphic `Map` hierarchy via abstract base class and virtual functions
+- `unique_ptr` / `shared_ptr` for map ownership; `Analyzer` borrows via `const Map&`
+- `std::filesystem` for automatic CSV output directory creation
+- CMake custom target for integrated Python plotting
