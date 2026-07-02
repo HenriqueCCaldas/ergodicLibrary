@@ -38,9 +38,10 @@ endif()
 #  --- Add the Python workflow 
 set(PYTHON ${CMAKE_SOURCE_DIR}/.venv/bin/python3)
 
-add_custom_target(plot
+add_custom_target(run_and_plot
+    COMMAND $<TARGET_FILE:ergodic>
     COMMAND ${PYTHON} ${CMAKE_SOURCE_DIR}/scripts/plot.py
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-    COMMENT "Generating plots..."
+    COMMENT "Running simulation and generating plots..."
     DEPENDS ergodic
 )

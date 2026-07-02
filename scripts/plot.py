@@ -26,5 +26,5 @@ axes[1].set_xlabel("Bin"); axes[1].set_ylabel("Frequency")
 axes[1].legend()
 
 plt.tight_layout()
-plt.savefig("data/doublingMaps/ergodic_plots.png", dpi=150)
-print("Saved to data/doublingMaps/ergodic_plots.png")
+plt.savefig("data/doublingMap/ergodic_plots.png", dpi=150)
+print("Saved to data/doublingMap/ergodic_plots.png")

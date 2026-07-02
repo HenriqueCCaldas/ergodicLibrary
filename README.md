@@ -20,15 +20,22 @@ ergodicLibrary/
 └── main.cpp               # Demo: currently available maps and modules
 ```
 
-## Build & Run
+## Build
 
 ```bash
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build
+```
+
+## Run 
+
+To run the main program separately from the plotting script:
+
+```bash
 ./build/ergodic
 ```
 
-To generate plots (requires matplotlib in a virtual environment):
+and then to generate plots (requires matplotlib in a virtual environment):
 
 ```bash
 python3 -m venv .venv
@@ -37,9 +44,20 @@ pip install matplotlib pandas
 cmake --build build --target plot
 ```
 
-To clean:
+To run simultaneosly
+```bash
+cmake --build build --target run_and_plot
+```
+
+## Clean 
+To clean the build:
 ```bash
 rm -rf build
+```
+
+and the data:
+```bash
+rm -rf data
 ```
 
 ## Modules
