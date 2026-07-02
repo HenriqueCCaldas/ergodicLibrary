@@ -86,10 +86,13 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+data
 
 ### macOS Patch ###
 # iCloud generated files
 *.icloud
+
+
 
 #!! ERROR: vscode is undefined. Use list command to see defined gitignore types !!#
 
