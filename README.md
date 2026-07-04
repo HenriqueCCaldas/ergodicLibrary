@@ -8,7 +8,7 @@ ergodicLibrary/
 ├── CMakeLists.txt
 ├── include/
 │   ├── map.h          # Abstract base class for all maps
-│   ├── classicMaps.h         # Concrete maps: Doubling (more to be added)
+│   ├── classicMaps.h         # Concrete maps: Doubling, Logistic Map (more to be added)
 │   └── ergodicAnalyzer.h     # Ergodic quantity computations
 ├── src/
 │   ├── map.cpp            # Map::orbit() implementation
@@ -73,8 +73,6 @@ rm -rf data
 |---|---|---|---|
 | Doubling | T(x) = 2x mod 1 | Lebesgue | ln 2 |
 | Logistic (r=4) | T(x) = 4x(1−x) | Arcsine 1/π√(x(1−x)) | ln 2 |
-| Gauss | T(x) = (1/x) mod 1 | Gauss 1/((1+x)ln2) | π²/6ln2 |
-
 *More maps to be added.*
 
 ## C++ Design
