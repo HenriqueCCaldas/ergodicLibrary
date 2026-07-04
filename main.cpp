@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <unordered_map>
 #include "include/map.h"
 #include "include/ergodicAnalyzer.h"
 #include "include/classicMaps.h"
@@ -14,28 +15,36 @@ void writeCSV(const std::string& path, const std::vector<double>& data) {
  
 int main() {
 
+    //Initialize both the Doubling and the Logistic Map
     auto doubling = std::make_unique<DoublingMap>();
+    auto logistic = std::make_unique<LogisticMap>(4.0);
+    //Create a hash map for these
+    std::unordered_map<std::string, Map*> availableMaps = {
+        {doubling->name(), doubling.get()}, {logistic->name(), logistic.get()}
+    };
  
-    std::cout << "Map: " << doubling->name() << std::endl;
-    auto orb = doubling->orbit(0.2, 10);
-    std::cout << "First 10 iterates from x0=0.2: " << std::endl;
-    for (double x : orb) std::cout << "  " << x << std::endl;
+    for (const auto& [name, map]: availableMaps){
+        std:: cout << "\nMap: " << name << std::endl;
+        double x0 = 0.2;
+        auto entryOrbit = map->orbit(x0,100);
+        std::cout << "First 100 iterates from x0 = " << std::to_string(x0) << std::endl;
+        for (double x: entryOrbit){
+            std::cout << "  " << x << std::endl;
+        }
+    
+        Analyzer analyzer(*map);  // borrows, does not own
+        auto f = [](double x) { return x; };  // identity observable
+ 
+        auto convergence = analyzer.birkhoffConvergence(0.2, 10000, f);
+        writeCSV(name + "/birkhoff_convergence.csv", convergence);
+        std::cout << "Birkhoff average (N=10000): " << convergence.back()<<std::endl;
  
     
-    Analyzer analyzer(*doubling);  // borrows, does not own
-    auto f = [](double x) { return x; };  // identity observable
+        auto measure = analyzer.invariantMeasure(0.2, 1000000, 100);
+        writeCSV(name +"/invariant_measure.csv", measure);
  
-    auto convergence = analyzer.birkhoffConvergence(0.2, 10000, f);
-    writeCSV("doublingMap/birkhoff_convergence.csv", convergence);
-    std::cout << "Birkhoff average (N=10000): " << convergence.back() << " (expect ~0.5)" << std::endl;
- 
-    
-    auto measure = analyzer.invariantMeasure(0.2, 1000000, 100);
-    writeCSV("doublingMap/invariant_measure.csv", measure);
-    std::cout << "Invariant measure written to :" << DATA_DIR << std::endl;
- 
-    //printout the Lyapunov exponent for the doubling map
-    std::cout << "Lyapunov exponent for "<< doubling->name() << ": " << analyzer.lyapunovExponent(0.2, 100000) << std::endl;
-
+        //printout the Lyapunov exponent for the doubling map
+        std::cout << "Lyapunov exponent for "<< name << ": " << analyzer.lyapunovExponent(0.2, 100000) << std::endl << std::endl;
+    }
     return 0;
 }
