@@ -3,6 +3,7 @@
 
 class DoublingMap : public Map {
 public:
+    //For y 
     double iterate(double x) const override {
         return std::fmod(2.0 * x, 1.0); 
     }
@@ -29,7 +30,7 @@ private:
 public:
     explicit LogisticMap(double r);
     double iterate(double x) const override{
-        return (r_ * x * (1-x));
+        return (r_ * x * (1 - x));
     }
     double derivative (double x) const override {
         return (r_ * (1 - 2 * x));

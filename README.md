@@ -81,3 +81,15 @@ rm -rf data
 - `unique_ptr` / `shared_ptr` for map ownership; `Analyzer` borrows via `const Map&`
 - `std::filesystem` for automatic CSV output directory creation
 - CMake custom target for integrated Python plotting
+
+## Numerical considerations
+
+### Floating point 
+
+- For chaotic maps like the Doubling map, floating point introduces 
+a fundamental limitation. Since `x0 = 0.2` cannot be represented exactly in 
+binary, the stored value carries a small error `ε`. The Doubling map 
+multiplies by 2 at each step, so this error grows as `2^n*ε` — exactly the rate 
+predicted by the Lyapunov exponent `λ = ln 2 ≈ 0.693`. After ~50 iterations 
+the error dominates and the orbit collapses to 0.
+- Consider using different initial conditions that are binary friendly, as `x0 = 0.125`

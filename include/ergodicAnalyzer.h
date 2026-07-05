@@ -11,7 +11,6 @@
 class Analyzer {
 public:
     explicit Analyzer(const Map& map) : map_(map) {}
- 
     double birkhoffAverage(double x0, int N,
                            const std::function<double(double)>& f) const;
  
