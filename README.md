@@ -73,8 +73,8 @@ rm -rf data
 |---|---|---|---|
 | Doubling | T(x) = 2x mod 1 | Lebesgue | ln 2 |
 | Logistic (r=4) | T(x) = 4x(1−x) | Arcsine 1/π√(x(1−x)) | ln 2 |
-*More maps to be added.*
 
+*More maps to be added.*
 ## C++ Design
 
 - Polymorphic `Map` hierarchy via abstract base class and virtual functions
