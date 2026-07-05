@@ -25,7 +25,7 @@ int main() {
  
     for (const auto& [name, map]: availableMaps){
         std:: cout << "\nMap: " << name << std::endl;
-        double x0 = 0.2;
+        double x0 = 0.3123432643253452;
         auto entryOrbit = map->orbit(x0,100);
         std::cout << "First 100 iterates from x0 = " << std::to_string(x0) << std::endl;
         for (double x: entryOrbit){
@@ -33,14 +33,14 @@ int main() {
         }
     
         Analyzer analyzer(*map);  // borrows, does not own
-        auto f = [](double x) { return x; };  // identity observable
+        auto f = [](double x) { return x;};  // identity observable
  
-        auto convergence = analyzer.birkhoffConvergence(0.2, 10000, f);
+        auto convergence = analyzer.birkhoffConvergence(x0, 10000, f);
         writeCSV(name + "/birkhoff_convergence.csv", convergence);
         std::cout << "Birkhoff average (N=10000): " << convergence.back()<<std::endl;
  
     
-        auto measure = analyzer.invariantMeasure(0.2, 1000000, 100);
+        auto measure = analyzer.invariantMeasure(x0, 1000000, 100);
         writeCSV(name +"/invariant_measure.csv", measure);
  
         //printout the Lyapunov exponent for the doubling map

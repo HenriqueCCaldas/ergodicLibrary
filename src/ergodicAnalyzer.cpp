@@ -1,6 +1,8 @@
 #include "../include/ergodicAnalyzer.h"
 
 
+
+// Time average
 double Analyzer::birkhoffAverage(double x0, int N, const std::function<double(double)>& f) const {
     double sum = 0.0;
     double x = x0;
@@ -42,11 +44,16 @@ std::vector<double> Analyzer::invariantMeasure(double x0, int N, int bins) const
     double high = map_.xmax();
     double x = x0;
     for (int i = 0; i < N; i++) {
+        //retrieve the index of the bin the each iteration of the map
         int bin = static_cast<int>((x - low) / (high - low) * bins);
-        if (bin >= 0 && bin < bins) hist[bin]++;
+        if (bin >= 0 && bin < bins) {
+            hist[bin]++;
+        }
         x = map_.iterate(x);
     }
-    // normalize
-    for (auto& h : hist) h /= N;
+    // normalize to account for iterations
+    for (auto& h : hist) {
+        h /= N;
+    }
     return hist;
 }
