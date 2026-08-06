@@ -1,4 +1,3 @@
-#pragma once
 #include "map.h"
 #include <functional>
 #include <cmath>
