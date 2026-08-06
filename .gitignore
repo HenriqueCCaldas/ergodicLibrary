@@ -38,6 +38,9 @@
 *.out
 *.app
 
+#Specific executable
+**/ergodic
+
 ### CMake ###
 CMakeLists.txt.user
 CMakeCache.txt
@@ -66,7 +69,6 @@ CMakeUserPresets.json
 
 # Icon must end with two \r
 Icon
-
 
 # Thumbnails
 ._*
