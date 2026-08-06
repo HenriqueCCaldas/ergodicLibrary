@@ -45,6 +45,7 @@ std::vector<double> Analyzer::invariantMeasure(double x0, int N, int bins) const
     double x = x0;
     for (int i = 0; i < N; i++) {
         //retrieve the index of the bin the each iteration of the map
+        //use static_cast to convert to int
         int bin = static_cast<int>((x - low) / (high - low) * bins);
         if (bin >= 0 && bin < bins) {
             hist[bin]++;
