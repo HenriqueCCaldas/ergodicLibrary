@@ -8,4 +8,3 @@ LogisticMap::LogisticMap(double r){
     }
     else r_ = r;
 }
-
