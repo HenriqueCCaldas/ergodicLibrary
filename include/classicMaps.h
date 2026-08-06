@@ -25,6 +25,7 @@ public:
 
 class LogisticMap : public Map {
 private:
+
     //Parameter for the logistic regression
     double r_;
 public:
@@ -44,4 +45,27 @@ public:
     double xmax() const override {
         return 1.0; 
     }
+};
+
+class GaussIteratedMap: public Map {
+private:
+    double alpha_;
+    double beta_;
+public:
+    explicit GaussIteratedMap(double alpha, double beta): alpha_(alpha), beta_(beta){};
+    double iterate(double x) const override {
+        return std::exp(-alpha_ * x * x) + beta_;
+    }
+    double derivative(double x) const override {
+        return -2.0 * alpha_ * x * std::exp(-alpha_ * x * x);
+    }
+    std::string name () const override {
+        return "Gauss Iterated Map at (" + std::to_string(alpha_) + "," + std::to_string(beta_) + ')';
+    }
+    double xmin() const override {
+        return (-1.0);
+    }
+    double xmax() const override {
+        return 1.0; 
+    }  
 };
