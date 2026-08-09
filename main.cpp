@@ -17,8 +17,8 @@ int main() {
 
     //Initialize both the Doubling and the Logistic Map
     auto doubling = std::make_unique<DoublingMap>();
-    auto logistic4 = std::make_unique<LogisticMap>(4.0);
 
+    auto logistic4 = std::make_unique<LogisticMap>(4.0);
     // Alpha set tp 4.9 and sweeping between beta from -1 to 0 is chaotic
     // Fixed point at x0 = 0: simplest, Lyapunov < 0
     auto gauss_fixed   = std::make_unique <GaussIteratedMap>(4.9,  0.0);
@@ -31,13 +31,15 @@ int main() {
     
     //Create a hash map for these test maps;
     std::unordered_map<std::string, Map*> availableMaps = {
-        {doubling->name(), doubling.get()}, {logistic4->name(), logistic4.get()} ,
-        {gauss_fixed->name(), gauss_fixed.get()}, {gauss_chaotic->name(), gauss_chaotic.get()},
-        {gauss_period->name(), gauss_period.get()}
+        {doubling->hashKey(), doubling.get()},
+        {logistic4->hashKey(), logistic4.get()} ,
+        {gauss_fixed->hashKey(), gauss_fixed.get()},
+        {gauss_chaotic->hashKey(), gauss_chaotic.get()},
+        {gauss_period->hashKey(), gauss_period.get()}
     };
 
-    for (const auto& [name, map]: availableMaps){
-        std:: cout << "\nMap: " << name << std::endl;
+    for (const auto& [hash, map]: availableMaps){
+        std:: cout << "\nMap: " << map->name() << std::endl;
         
         //Initial condition 
         double x0 = 0.2;
@@ -58,15 +60,15 @@ int main() {
         //Use the methods deriving from the analyzer and 
         
         auto convergence = analyzer.birkhoffConvergence(x0, 10000, f);
-        writeCSV(name + "/birkhoff_convergence.csv", convergence);
+        writeCSV(hash + "/birkhoff_convergence.csv", convergence);
         std::cout << "Birkhoff average (N=10000): " << convergence.back()<<std::endl;
  
     
         auto measure = analyzer.invariantMeasure(x0, 1000000, 100);
-        writeCSV(name +"/invariant_measure.csv", measure);
+        writeCSV(hash +"/invariant_measure.csv", measure);
  
         //printout the Lyapunov exponent for the doubling map
-        std::cout << "Lyapunov exponent for "<< name << ": " << analyzer.lyapunovExponent(0.2, 100000) << std::endl << std::endl;
+        std::cout << "Lyapunov exponent for "<< map->name() << ": " << analyzer.lyapunovExponent(0.2, 100000) << std::endl << std::endl;
     }
     return 0;
 }
