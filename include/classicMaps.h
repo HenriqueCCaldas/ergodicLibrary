@@ -3,6 +3,7 @@
 
 class DoublingMap : public Map {
 public:
+    explicit DoublingMap() : Map("doublingMap", {}) {}
     //For y 
     double iterate(double x) const override {
         return std::fmod(2.0 * x, 1.0); 
@@ -11,10 +12,10 @@ public:
         return 2.0; 
     }
     std::string name() const override { 
-        return "DoublingMap";
+        return "Doubling Map";
     }
     double xmin() const override { 
-        return 0.0; 
+        return 0.0;
     }
     double xmax()  const override { 
         return 1.0; 
@@ -25,9 +26,8 @@ public:
 
 class LogisticMap : public Map {
 private:
-
-    //Parameter for the logistic regression
-    double r_;
+    //Parameter for the logistic regression, aliased into Map::params_
+    double& r_;
 public:
     explicit LogisticMap(double r);
     double iterate(double x) const override{
@@ -49,11 +49,14 @@ public:
 
 class GaussIteratedMap: public Map {
 private:
-    double alpha_;
-    double beta_;
+    // aliased into Map::params_
+    double& alpha_;
+    double& beta_;
 public:
-    explicit GaussIteratedMap(double alpha, double beta): alpha_(alpha), beta_(beta){};
-    double iterate(double x) const override {
+    explicit GaussIteratedMap(double alpha, double beta)
+    : Map("gaussIterated", {alpha, beta}), alpha_(params()[0]), beta_(params()[1]) {};
+    
+        double iterate(double x) const override {
         return std::exp(-alpha_ * x * x) + beta_;
     }
     double derivative(double x) const override {
