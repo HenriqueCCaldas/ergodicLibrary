@@ -7,7 +7,7 @@ A computational library for numerically investigating ergodic properties of disc
 ergodicLibrary/
 ├── CMakeLists.txt
 ├── include/
-│   ├── map.h          # Abstract base class for all maps
+│   ├── map.h          # Abstract base class for all maps (includes private tag_ and params_ vector to store name and parameters)
 │   ├── classicMaps.h         # Concrete maps: Doubling, Logistic Map (more to be added)
 │   └── ergodicAnalyzer.h     # Ergodic quantity computations
 ├── src/
