@@ -18,7 +18,13 @@ public:
 
     // Maximal Lyapunov exponent in one dimension: (1/N) * sum log|DT(x_n)|
     double lyapunovExponent(double x0, int N) const;
- 
+
+    //Running average of the Lyapunov Exponent
+    std::vector<double> lyapunovConvergence(double x0, int N) const;
+
+    // Trajectory divergence: log|x_n - y_n| for two orbits starting delta apart (x0, x0+delta).
+    std::vector<double> trajectoryDivergence(double x0, double delta, int N) const;
+
     // Invariant measure: histogram of orbit visits over [xmin, xmax]
     // Returns normalized bin counts (approximates the invariant density)
     std::vector<double> invariantMeasure(double x0, int N, int bins) const;

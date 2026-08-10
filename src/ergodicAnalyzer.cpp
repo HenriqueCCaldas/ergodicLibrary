@@ -26,7 +26,7 @@ std::vector<double> Analyzer::birkhoffConvergence(double x0, int N, const std::f
     }
     return running;
 }
-
+//Lyapunov Exponent at N
 double Analyzer::lyapunovExponent(double x0, int N) const {
     double sum = 0.0;
     double x = x0;
@@ -37,6 +37,36 @@ double Analyzer::lyapunovExponent(double x0, int N) const {
     }
     return sum / N;
 }
+//Running Lyapunov Exponent
+std::vector<double> Analyzer::lyapunovConvergence(double x0, int N) const {
+    std::vector<double> running;
+    running.reserve(N);
+    double sum = 0.0;
+    double x = x0;
+    for (int i = 0; i < N; i++) {
+        double d = std::abs(map_.derivative(x));
+        if (d > 0) sum += std::log(d);
+        running.push_back(sum / (i + 1));
+        x = map_.iterate(x);
+    }
+    return running;
+}
+
+//
+std::vector<double> Analyzer::trajectoryDivergence(double x0, double delta, int N) const {
+    std::vector<double> logSep;
+    logSep.reserve(N);
+    double x = x0;
+    double y = x0 + delta;
+    for (int i = 0; i < N; i++) {
+        double sep = std::abs(x - y);
+        //use quite_Nan in case sep = 0 
+        logSep.push_back(sep > 0 ? std::log(sep) : std::numeric_limits<double>::quiet_NaN());
+        x = map_.iterate(x);
+        y = map_.iterate(y);
+    }
+    return logSep;
+}
 
 std::vector<double> Analyzer::invariantMeasure(double x0, int N, int bins) const {
     std::vector<double> hist(bins, 0.0);
@@ -45,14 +75,14 @@ std::vector<double> Analyzer::invariantMeasure(double x0, int N, int bins) const
     double x = x0;
     for (int i = 0; i < N; i++) {
         //retrieve the index of the bin the each iteration of the map
-        //use static_cast to convert to int
+        //use static cast to convert to integer
         int bin = static_cast<int>((x - low) / (high - low) * bins);
         if (bin >= 0 && bin < bins) {
             hist[bin]++;
         }
         x = map_.iterate(x);
     }
-    // normalize to account for iterations
+    //normalize to account for iterations
     for (auto& h : hist) {
         h /= N;
     }
