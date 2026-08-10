@@ -1,5 +1,6 @@
 #include "map.h"
 #include <functional>
+#include <limits>
 #include <cmath>
 #include <numeric>
 #include <stdexcept>
