@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <limits>
 #include <unordered_map>
 #include "include/map.h"
 #include "include/ergodicAnalyzer.h"
@@ -66,7 +67,18 @@ int main() {
     
         auto measure = analyzer.invariantMeasure(x0, 1000000, 100);
         writeCSV(hash +"/invariant_measure.csv", measure);
- 
+
+        auto lyapConvergence = analyzer.lyapunovConvergence(x0, 10000);
+        writeCSV(hash + "/lyapunov_convergence.csv", lyapConvergence);
+
+        // Perturb x0 by a few ULPs and track how fast the two orbits separate.
+        // For the Doubling map this reproduces the floating-point error growth
+        // described in the README: separation ~ 2^n * epsilon, saturating once
+        // n ~ 52 (double's mantissa width) makes the perturbation O(1).
+        double delta = std::numeric_limits<double>::epsilon();
+        auto divergence = analyzer.trajectoryDivergence(x0, delta, 100);
+        writeCSV(hash + "/trajectory_divergence.csv", divergence);
+
         //printout the Lyapunov exponent for the doubling map
         std::cout << "Lyapunov exponent for "<< map->name() << ": " << analyzer.lyapunovExponent(0.2, 100000) << std::endl << std::endl;
     }

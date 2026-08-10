@@ -7,7 +7,7 @@ import os
 
 fig, axes = plt.subplots(1, 2, figsize=(15, 4))
 
-data_dir = "data"
+data_dir = "../data"
 
 # Iterate over all subfolders in data/
 for map_name in os.listdir(data_dir):
@@ -15,33 +15,77 @@ for map_name in os.listdir(data_dir):
     if not os.path.isdir(map_dir):
         continue
 
-    birkhoff_path = os.path.join(map_dir, "birkhoff_convergence.csv")
-    measure_path  = os.path.join(map_dir, "invariant_measure.csv")
+    birkhoff_path   = os.path.join(map_dir, "birkhoff_convergence.csv")
+    measure_path    = os.path.join(map_dir, "invariant_measure.csv")
+    lyapunov_path   = os.path.join(map_dir, "lyapunov_convergence.csv")
+    divergence_path = os.path.join(map_dir, "trajectory_divergence.csv")
 
     # Skip if expected files are missing
     if not os.path.exists(birkhoff_path) or not os.path.exists(measure_path):
         print(f"Skipping {map_name} — missing CSV files")
         continue
 
-    fig, axes = plt.subplots(1, 2, figsize=(15, 4))
+    fig, axes = plt.subplots(2, 2, figsize=(15, 8))
     fig.suptitle(f"Ergodic properties - {map_name}", fontsize=14)
 
     # Birkhoff convergence
     df = pd.read_csv(birkhoff_path, header=None, names=["n", "avg"])
-    axes[0].plot(df["n"], df["avg"], lw=0.8)
-    axes[0].axhline(0.5, color="red", linestyle="--", label="Space average = 0.5")
-    axes[0].set_title("Birkhoff Average Convergence")
-    axes[0].set_xlabel("N")
-    axes[0].set_ylabel("Running average")
-    axes[0].legend()
+    axes[0, 0].plot(df["n"], df["avg"], lw=0.8, label= "Birkhoff Convergence")
+    if map_name == "doublingMap":
+        axes[0, 0].axhline(0.5, color="red", linestyle="--", label="Space average = 0.5")
+    axes[0, 0].set_title("Birkhoff Average Convergence")
+    axes[0, 0].set_xlabel("N")
+    axes[0, 0].set_ylabel("Running average")
+    axes[0, 0].legend()
 
     # Invariant measure
     df = pd.read_csv(measure_path, header=None, names=["bin", "freq"])
-    axes[1].bar(df["bin"], df["freq"], width=1, alpha=0.6, label="Empirical")
-    axes[1].set_title(f"Invariant Measure ({map_name})")
-    axes[1].set_xlabel("Bin")
-    axes[1].set_ylabel("Frequency")
-    axes[1].legend()
+    axes[0, 1].bar(df["bin"], df["freq"], width=1, alpha=0.6, label="Empirical")
+    axes[0, 1].set_title(f"Invariant Measure ({map_name})")
+    axes[0, 1].set_xlabel("Bin")
+    axes[0, 1].set_ylabel("Frequency")
+    axes[0, 1].legend()
+
+    # Lyapunov exponent convergence: running average of log|DT(x_n)|
+    if os.path.exists(lyapunov_path):
+        df = pd.read_csv(lyapunov_path, header=None, names=["n", "avg"])
+        axes[1, 0].plot(df["n"], df["avg"], lw=0.8, label = "Running $\lambda$")
+        if map_name == "doublingMap":
+            axes[1, 0].axhline(np.log(2), color="red", linestyle="--", label="ln 2 = 0.693")
+        axes[1, 0].set_title("Lyapunov Exponent Convergence")
+        axes[1, 0].set_xlabel("N")
+        axes[1, 0].set_ylabel(r"$\frac{1}{N}\sum \log|DT(x_n)|$")
+        axes[1, 0].legend()
+    else:
+        axes[1, 0].axis("off")
+
+    # Trajectory divergence: log|x_n - y_n| for two orbits started ~epsilon apart.
+    # Slope of the early, linear regime is the Lyapunov exponent itself.
+    if os.path.exists(divergence_path):
+        df = pd.read_csv(divergence_path, header=None, names=["n", "log_sep"])
+        axes[1, 1].plot(df["n"], df["log_sep"], lw=0.8, marker=".", markersize=3, label="log|x_n - y_n|")
+
+        # Reference line of slope ln 2, anchored at the first valid point,
+        # drawn only over the pre-saturation window (n <= 52 for a double's
+        # 52-bit mantissa — see README "Floating point" section).
+        valid = df.dropna()
+        if not valid.empty:
+            n0, y0 = valid["n"].iloc[0], valid["log_sep"].iloc[0]
+            cutoff = min(df["n"].max(), 52)
+            ref_n = np.linspace(n0, cutoff, 2)
+            if map_name == "doublingMap":
+                axes[1, 1].plot(ref_n, y0 + np.log(2) * (ref_n - n0),
+                             color="red", linestyle="--", label="slope = ln 2")
+            if map_name == "doublingMap":
+                axes[1, 1].axvline(52, color="gray", linestyle=":",
+                                    label="52-bit mantissa saturation")
+
+        axes[1, 1].set_title("Trajectory Divergence")
+        axes[1, 1].set_xlabel("n")
+        axes[1, 1].set_ylabel("log|x_n - y_n|")
+        axes[1, 1].legend()
+    else:
+        axes[1, 1].axis("off")
 
     plt.tight_layout()
     out_path = os.path.join(map_dir, "ergodic_plots.png")
