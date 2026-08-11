@@ -54,8 +54,10 @@ def update(frame):
     scat.set_offsets(np.column_stack([np.cos(theta), np.sin(theta)]))
     width = x.max() - x.min()
     title.set_text(
-        #f"n = {frame}    cluster width $\\approx$ {width:.2e}\n"
+        "Doubling / Bit-shifting Map at iteration " f"n = {frame}\n"
+        #"cluster width $\\approx$ {width:.2e}\n"
         "T(x) = 2x mod 1  " r"$\Rightarrow \; \lambda = \ln 2$"
+        
     )
     return scat, title
 

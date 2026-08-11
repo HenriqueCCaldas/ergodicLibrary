@@ -7,7 +7,7 @@ import os
 
 fig, axes = plt.subplots(1, 2, figsize=(15, 4))
 
-data_dir = "../data"
+data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data")
 
 # Iterate over all subfolders in data/
 for map_name in os.listdir(data_dir):
