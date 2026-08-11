@@ -96,5 +96,7 @@ the error dominates and the orbit collapses to 0.
 
 
 ## Note
+The plotting files were generated with assistance from Claude to better represent the data generated.
 
-This README file was written with assistance from Claude. The rest of the code was manually designed as exercise, Claude was punctually used to help debugging the software.
+This README file was also written with assistance from Claude. The rest of the code was manually designed as exercise, Claude was punctually used to help debugging the software.
+
