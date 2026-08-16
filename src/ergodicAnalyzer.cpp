@@ -54,18 +54,24 @@ std::vector<double> Analyzer::lyapunovExponentConvergence(double x0, int N) cons
 
 //
 std::vector<double> Analyzer::trajectoryDivergence(double x0, double delta, int N) const {
-    std::vector<double> logSep;
-    logSep.reserve(N);
+    std::vector<double> logSeparation;
+    //Alocate N places for trajectory divergence
+    logSeparation.reserve(N);
     double x = x0;
     double y = x0 + delta;
     for (int i = 0; i < N; i++) {
-        double sep = std::abs(x - y);
+        double separation = std::abs(x - y);
         //use quite_Nan in case sep = 0 
-        logSep.push_back(sep > 0 ? std::log(sep) : std::numeric_limits<double>::quiet_NaN());
+            if (separation > 0){
+                logSeparation.push_back(std::log(separation));
+            }
+            else {
+                logSeparation.push_back(std::numeric_limits<double>::quiet_NaN());
+            }   
         x = map_.iterate(x);
         y = map_.iterate(y);
     }
-    return logSep;
+    return logSeparation;
 }
 
 std::vector<double> Analyzer::invariantMeasure(double x0, int N, int bins) const {
