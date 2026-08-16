@@ -108,7 +108,7 @@ the error dominates and the orbit collapses to 0.
 - Consider using different initial conditions that are binary friendly, as `x0 = 0.125`
 
 
-## Note
+## Note on AI usage
 The plotting files were generated with assistance from Claude to better represent the data generated.
 
 This README file was also written with assistance from Claude. The rest of the code was manually designed as exercise, Claude was punctually used to help debugging the software.
