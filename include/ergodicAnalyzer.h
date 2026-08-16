@@ -21,7 +21,7 @@ public:
     double lyapunovExponent(double x0, int N) const;
 
     //Running average of the Lyapunov Exponent
-    std::vector<double> lyapunovExponent_Running(double x0, int N) const;
+    std::vector<double> lyapunovExponentConvergence(double x0, int N) const;
 
     //Trajectory divergence: log|x_n - y_n| for two orbits starting delta apart (x0, x0+delta).
     std::vector<double> trajectoryDivergence(double x0, double delta, int N) const;
