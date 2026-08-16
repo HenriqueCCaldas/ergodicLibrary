@@ -57,17 +57,19 @@ int main() {
         //Use the identify function as the observable function
         auto f = [](double x) { return x;};
  
-        //Use the methods deriving from the analyzer and 
+        //Define the number of map iterations N
+
+        int N = 60;
         
-        auto convergence = analyzer.birkhoffConvergence(x0, 10000, f);
+        auto convergence = analyzer.birkhoffConvergence(x0, N, f);
         writeCSV(hash + "/birkhoff_convergence.csv", convergence);
         std::cout << "Birkhoff average (N=10000): " << convergence.back()<<std::endl;
  
     
-        auto measure = analyzer.invariantMeasure(x0, 1000000, 100);
+        auto measure = analyzer.invariantMeasure(x0, N, 100);
         writeCSV(hash +"/invariant_measure.csv", measure);
 
-        auto lyapConvergence = analyzer.lyapunovConvergence(x0, 10000);
+        auto lyapConvergence = analyzer.lyapunovExponent_Running(x0, N);
         writeCSV(hash + "/lyapunov_convergence.csv", lyapConvergence);
 
         // Perturb x0 by a few ULPs and track how fast the two orbits separate.
@@ -75,11 +77,11 @@ int main() {
         // described in the README: separation ~ 2^n * epsilon, saturating once
         // n ~ 52 (double's mantissa width) makes the perturbation O(1).
         double delta = std::numeric_limits<double>::epsilon();
-        auto divergence = analyzer.trajectoryDivergence(x0, delta, 100);
+        auto divergence = analyzer.trajectoryDivergence(x0, delta, N);
         writeCSV(hash + "/trajectory_divergence.csv", divergence);
 
         //printout the Lyapunov exponent for the doubling map
-        std::cout << "Lyapunov exponent for "<< map->name() << ": " << analyzer.lyapunovExponent(0.2, 100000) << std::endl << std::endl;
+        std::cout << "Lyapunov exponent for "<< map->name() << ": " << analyzer.lyapunovExponent(0.2, N) << std::endl << std::endl;
     }
     return 0;
 }
