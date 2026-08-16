@@ -7,17 +7,18 @@ A computational library for numerically investigating ergodic properties of disc
 ergodicLibrary/
 ├── CMakeLists.txt
 ├── include/
-│   ├── map.h          # Abstract base class for all maps (includes private tag_ and params_ vector to store name and parameters)
-│   ├── classicMaps.h         # Concrete maps: Doubling, Logistic Map (more to be added)
-│   └── ergodicAnalyzer.h     # Ergodic quantity computations
+│   ├── map.h                   # Abstract base class for all maps (includes private tag_ and params_ vector to store name and parameters)
+│   ├── classicMaps.h           # Concrete maps: Doubling, Logistic Map (more to be added)
+│   └── ergodicAnalyzer.h       # Ergodic quantity computations
 ├── src/
-│   ├── map.cpp            # Map::orbit() implementation
-│   ├── ergodicAnalyzer.cpp # Birkhoff, Lyapunov, measure
-│   └── classicMaps.cpp    # Map implementations (in progress)
+│   ├── map.cpp                 # Map::orbit() implementation
+│   ├── ergodicAnalyzer.cpp     # Birkhoff, Lyapunov, Trajectory divergence, Invariant measure, etc.
+│   └── classicMaps.cpp         # Map implementations (in progress)
 ├── scripts/
-│   └── plot.py            # Matplotlib visualization
-├── data/                  # CSV output — generated at runtime, not tracked by git
-└── main.cpp               # Demo: currently available maps and modules
+│   ├── plot.py                 # Matplotlib visualization    
+│   └── animated_phase_space.py # Matplotlib animated visualization of the doubling map for 150 points
+├── data/                       # CSV output — generated at runtime, not tracked by git
+└── main.cpp                    # Demo: currently available maps and modules
 ```
 
 ## Build
@@ -62,17 +63,27 @@ rm -rf data
 
 ## Modules
 
-| Module | What it computes | Expected result (Doubling map) |
-|---|---|---|
-| Birkhoff average | (1/N) Σ f(Tⁿx₀) | Converges to 0.5 |
-| Invariant measure | Histogram of orbit visits | Lebesgue (uniform) measure |
-| Lyapunov exponent | (1/N) Σ log\|DT(xₙ)\| | ln 2 ≈ 0.693 |
-## Maps
+| Module | What it computes |
+|---|---|
+| Birkhoff average | (1/N) Σ f(Tⁿx₀) |
+| Invariant measure | Histogram of orbit visits |
+| Lyapunov exponent | (1/N) Σ log\|DT(xₙ)\|
 
-| Map | Definition | Invariant measure | Lyapunov exponent |
-|---|---|---|---|
-| Doubling | T(x) = 2x mod 1 | Lebesgue | ln 2 |
-| Logistic (r=4) | T(x) = 4x(1−x) | Arcsine 1/π√(x(1−x)) | ln 2 |
+
+## Vector Moduules
+
+| Module | What it computes |
+|---|---|
+| Birkhoff convergence | Vector of size N of iterations (1/N) Σ f(Tⁿx₀) |
+| Running Lyapunov convergence | Vector of size N of iterations (1/N) Σ log\|DT(xₙ)\|
+| Trajectory Divergence | Vector that stores the log(|xₙ-yₙ|)
+
+
+## Available Maps
+
+| Doubling Map |
+| Gauss Iterated |
+| Logistic Map |
 
 *More maps to be added.*
 ## C++ Design
