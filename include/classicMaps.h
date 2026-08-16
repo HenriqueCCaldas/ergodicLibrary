@@ -49,7 +49,7 @@ public:
 
 class GaussIteratedMap: public Map {
 private:
-    // aliased into Map::params_
+    //alias the parameters from the base class Map
     double& alpha_;
     double& beta_;
 public:
