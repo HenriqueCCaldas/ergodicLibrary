@@ -69,7 +69,7 @@ int main() {
         auto measure = analyzer.invariantMeasure(x0, N, 100);
         writeCSV(hash +"/invariant_measure.csv", measure);
 
-        auto lyapConvergence = analyzer.lyapunovExponent_Running(x0, N);
+        auto lyapConvergence = analyzer.lyapunovExponentConvergence(x0, N);
         writeCSV(hash + "/lyapunov_convergence.csv", lyapConvergence);
 
         // Perturb x0 by a few ULPs and track how fast the two orbits separate.
