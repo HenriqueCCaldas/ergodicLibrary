@@ -70,7 +70,7 @@ rm -rf data
 | Lyapunov exponent | (1/N) Σ log\|DT(xₙ)\|
 
 
-## Vector Moduules
+## Vector Modules
 
 | Module | What it computes |
 |---|---|

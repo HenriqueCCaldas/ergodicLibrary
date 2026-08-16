@@ -26,7 +26,7 @@ public:
 
 class LogisticMap : public Map {
 private:
-    //Parameter for the logistic regression, aliased into Map::params_
+    //alias of the parameter in the base class Map 
     double& r_;
 public:
     explicit LogisticMap(double r);
@@ -54,8 +54,9 @@ private:
     double& beta_;
 public:
     explicit GaussIteratedMap(double alpha, double beta)
-    : Map("gaussIterated", {alpha, beta}), alpha_(params()[0]), beta_(params()[1]) {};
-    
+    : Map("gaussIterated", {alpha, beta}), 
+    alpha_(params()[0]), 
+    beta_(params()[1]) {};
         double iterate(double x) const override {
         return std::exp(-alpha_ * x * x) + beta_;
     }
