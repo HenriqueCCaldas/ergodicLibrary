@@ -38,7 +38,7 @@ double Analyzer::lyapunovExponent(double x0, int N) const {
     return sum / N;
 }
 //Running Lyapunov Exponent
-std::vector<double> Analyzer::lyapunovConvergence(double x0, int N) const {
+std::vector<double> Analyzer::lyapunovExponent_Running(double x0, int N) const {
     std::vector<double> running;
     running.reserve(N);
     double sum = 0.0;

@@ -5,8 +5,8 @@
 #include <numeric>
 #include <stdexcept>
 
-// Analyzer borrows a Map (does not own it) and computes ergodic quantities.
-// All methods take observables f: R -> R as std::function.
+// The Analyzer class borrows a Map (does not own it) and computes ergodic quantities.
+// All methods take observables as function f: R -> R as std::function.
 
 class Analyzer {
 public:
@@ -21,9 +21,9 @@ public:
     double lyapunovExponent(double x0, int N) const;
 
     //Running average of the Lyapunov Exponent
-    std::vector<double> lyapunovConvergence(double x0, int N) const;
+    std::vector<double> lyapunovExponent_Running(double x0, int N) const;
 
-    // Trajectory divergence: log|x_n - y_n| for two orbits starting delta apart (x0, x0+delta).
+    //Trajectory divergence: log|x_n - y_n| for two orbits starting delta apart (x0, x0+delta).
     std::vector<double> trajectoryDivergence(double x0, double delta, int N) const;
 
     // Invariant measure: histogram of orbit visits over [xmin, xmax]
