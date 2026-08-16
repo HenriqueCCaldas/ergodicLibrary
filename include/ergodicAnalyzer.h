@@ -24,7 +24,7 @@ public:
     std::vector<double> lyapunovExponentConvergence(double x0, int N) const;
 
     //Trajectory divergence: log|x_n - y_n| for two orbits starting delta apart (x0, x0+delta).
-    std::vector<double> trajectoryDivergence(double x0, double delta, int N) const;
+    std::vector<double> trajectoryDivergence(double x0, int N, double delta) const;
 
     // Invariant measure: histogram of orbit visits over [xmin, xmax]
     // Returns normalized bin counts (approximates the invariant density)

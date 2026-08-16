@@ -77,7 +77,7 @@ int main() {
         // described in the README: separation ~ 2^n * epsilon, saturating once
         // n ~ 52 (double's mantissa width) makes the perturbation O(1).
         double delta = std::numeric_limits<double>::epsilon();
-        auto divergence = analyzer.trajectoryDivergence(x0, delta, N);
+        auto divergence = analyzer.trajectoryDivergence(x0,N, delta);
         writeCSV(hash + "/trajectory_divergence.csv", divergence);
 
         //printout the Lyapunov exponent for the doubling map

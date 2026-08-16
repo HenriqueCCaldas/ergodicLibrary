@@ -53,7 +53,7 @@ std::vector<double> Analyzer::lyapunovExponentConvergence(double x0, int N) cons
 }
 
 //
-std::vector<double> Analyzer::trajectoryDivergence(double x0, double delta, int N) const {
+std::vector<double> Analyzer::trajectoryDivergence(double x0, int N, double delta) const {
     std::vector<double> logSeparation;
     //Alocate N places for trajectory divergence
     logSeparation.reserve(N);
