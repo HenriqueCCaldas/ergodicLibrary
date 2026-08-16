@@ -76,11 +76,13 @@ rm -rf data
 |---|---|
 | Birkhoff convergence | Vector of size N of iterations (1/N) Σ f(Tⁿx₀) |
 | Running Lyapunov convergence | Vector of size N of iterations (1/N) Σ log\|DT(xₙ)\|
-| Trajectory Divergence | Vector that stores the log(|xₙ-yₙ|)
+| Trajectory Divergence | Vector that stores the log(\|xₙ-yₙ\|)|
 
 
 ## Available Maps
 
+| Module |
+|---|
 | Doubling Map |
 | Gauss Iterated |
 | Logistic Map |
