@@ -1,7 +1,10 @@
 #pragma once
+
+#include <boost/multiprecision/cpp_bin_float.hpp>
 #include <vector>
 #include <string>
  
+
 // base class for all discrete dynamical maps
 // use polymorphism in classicMaps.h and .cpp to replace the virtual methods iterate (), derivative and name;
 // using const methods to guarantee no member of the class is changed when called
