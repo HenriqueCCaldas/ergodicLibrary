@@ -30,6 +30,8 @@ cmake --build build
 
 ## Run 
 
+Running requires that a build already exists
+
 To run the main program separately from the plotting script:
 
 ```bash
