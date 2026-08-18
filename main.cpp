@@ -46,10 +46,14 @@ int main() {
         // to ~100 decimal digits, instead of inheriting a double literal's ~16
         // digit rounding (which would reproduce the double-precision collapse
         // at n~53 regardless of how much precision `real` has downstream).
-        real x0("0.2");
         //Create the first initial orbital points from x0
-        auto entryOrbit = map->orbit(x0,100);
-        std::cout << "First 100 iterates from x0 = " << x0.str() << std::endl;
+        real x0("0.2");
+        //Define the number of map iterations N
+
+        int N = 300;
+       
+        auto entryOrbit = map->orbit(x0, N);
+        std::cout << "First "<< std::to_string(N) << " iterates from x0 = " << x0.str() << std::endl;
         for (real x: entryOrbit){
             std::cout << "  " << x << std::endl;
         }
@@ -61,10 +65,6 @@ int main() {
         //Use the identify function as the observable function
         auto f = [](real x) { return x;};
  
-        //Define the number of map iterations N
-
-        int N = 60;
-        
         auto convergence = analyzer.birkhoffConvergence(x0, N, f);
         writeCSV(hash + "/birkhoff_convergence.csv", convergence);
         std::cout << "Birkhoff average (N=10000): " << convergence.back()<<std::endl;
