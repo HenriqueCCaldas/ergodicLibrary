@@ -5,19 +5,19 @@ class DoublingMap : public Map {
 public:
     explicit DoublingMap() : Map("doublingMap", {}) {}
     //For y 
-    double iterate(double x) const override {
-        return std::fmod(2.0 * x, 1.0); 
+    real iterate(real x) const override {
+        return fmod(2.0 * x, 1.0); 
     }
-    double derivative(double /*x*/) const override { 
+    real derivative(real /*x*/) const override { 
         return 2.0; 
     }
     std::string name() const override { 
         return "Doubling Map";
     }
-    double xmin() const override { 
+    real xmin() const override { 
         return 0.0;
     }
-    double xmax()  const override { 
+    real xmax()  const override { 
         return 1.0; 
     }
 };
@@ -27,22 +27,22 @@ public:
 class LogisticMap : public Map {
 private:
     //alias of the parameter in the base class Map 
-    double& r_;
+    real& r_;
 public:
-    explicit LogisticMap(double r);
-    double iterate(double x) const override{
+    explicit LogisticMap(real r);
+    real iterate(real x) const override{
         return (r_ * x * (1 - x));
     }
-    double derivative (double x) const override {
+    real derivative (real x) const override {
         return (r_ * (1 - 2 * x));
     }
     std::string name() const override {
-        return ("Logistic Map at " + std::to_string(r_));
+        return ("Logistic Map at " + r_.str());
     }
-    double xmin() const override {
+    real xmin() const override {
         return 0.0;
     }
-    double xmax() const override {
+    real xmax() const override {
         return 1.0; 
     }
 };
@@ -50,26 +50,26 @@ public:
 class GaussIteratedMap: public Map {
 private:
     //alias the parameters from the base class Map
-    double& alpha_;
-    double& beta_;
+    real& alpha_;
+    real& beta_;
 public:
-    explicit GaussIteratedMap(double alpha, double beta)
+    explicit GaussIteratedMap(real alpha, real beta)
     : Map("gaussIterated", {alpha, beta}), 
     alpha_(params()[0]), 
     beta_(params()[1]) {};
-        double iterate(double x) const override {
-        return std::exp(-alpha_ * x * x) + beta_;
+        real iterate(real x) const override {
+        return exp(-alpha_ * x * x) + beta_;
     }
-    double derivative(double x) const override {
-        return -2.0 * alpha_ * x * std::exp(-alpha_ * x * x);
+    real derivative(real x) const override {
+        return -2.0 * alpha_ * x * exp(-alpha_ * x * x);
     }
     std::string name () const override {
-        return "Gauss Iterated Map at (" + std::to_string(alpha_) + "," + std::to_string(beta_) + ')';
+        return "Gauss Iterated Map at (" + alpha_.str() + "," + beta_.str() + ')';
     }
-    double xmin() const override {
+    real xmin() const override {
         return (-1.0);
     }
-    double xmax() const override {
+    real xmax() const override {
         return 1.0; 
     }  
 };

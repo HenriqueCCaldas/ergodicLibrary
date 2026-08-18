@@ -3,9 +3,9 @@
 
 
 // Time average
-double Analyzer::birkhoffAverage(double x0, int N, const std::function<double(double)>& f) const {
-    double sum = 0.0;
-    double x = x0;
+real Analyzer::birkhoffAverage(real x0, int N, const std::function<real(real)>& f) const {
+    real sum = 0.0;
+    real x = x0;
     // Birkhoff average: (1/N) * sum_{n=0}^{N-1} f(T^n x0)
     for (int i = 0; i < N; i++) {
         sum += f(x);
@@ -14,11 +14,11 @@ double Analyzer::birkhoffAverage(double x0, int N, const std::function<double(do
     return sum / N;
 }
 
-std::vector<double> Analyzer::birkhoffConvergence(double x0, int N, const std::function<double(double)>& f) const {
-    std::vector<double> running;
+std::vector<real> Analyzer::birkhoffConvergence(real x0, int N, const std::function<real(real)>& f) const {
+    std::vector<real> running;
     running.reserve(N);
-    double sum = 0.0;
-    double x = x0;
+    real sum = 0.0;
+    real x = x0;
     for (int i = 0; i < N; i++) {
         sum += f(x);
         running.push_back(sum / (i + 1));
@@ -27,25 +27,25 @@ std::vector<double> Analyzer::birkhoffConvergence(double x0, int N, const std::f
     return running;
 }
 //Lyapunov Exponent at N
-double Analyzer::lyapunovExponent(double x0, int N) const {
-    double sum = 0.0;
-    double x = x0;
+real Analyzer::lyapunovExponent(real x0, int N) const {
+    real sum = 0.0;
+    real x = x0;
     for (int i = 0; i < N; i++) {
-        double d = std::abs(map_.derivative(x));
-        if (d > 0) sum += std::log(d);
+        real d = abs(map_.derivative(x));
+        if (d > 0) sum += log(d);
         x = map_.iterate(x);
     }
     return sum / N;
 }
 //Running Lyapunov Exponent
-std::vector<double> Analyzer::lyapunovExponentConvergence(double x0, int N) const {
-    std::vector<double> running;
+std::vector<real> Analyzer::lyapunovExponentConvergence(real x0, int N) const {
+    std::vector<real> running;
     running.reserve(N);
-    double sum = 0.0;
-    double x = x0;
+    real sum = 0.0;
+    real x = x0;
     for (int i = 0; i < N; i++) {
-        double d = std::abs(map_.derivative(x));
-        if (d > 0) sum += std::log(d);
+        real d = abs(map_.derivative(x));
+        if (d > 0) sum += log(d);
         running.push_back(sum / (i + 1));
         x = map_.iterate(x);
     }
@@ -53,20 +53,20 @@ std::vector<double> Analyzer::lyapunovExponentConvergence(double x0, int N) cons
 }
 
 //
-std::vector<double> Analyzer::trajectoryDivergence(double x0, int N, double delta) const {
-    std::vector<double> logSeparation;
+std::vector<real> Analyzer::trajectoryDivergence(real x0, int N, real delta) const {
+    std::vector<real> logSeparation;
     //Alocate N places for trajectory divergence
     logSeparation.reserve(N);
-    double x = x0;
-    double y = x0 + delta;
+    real x = x0;
+    real y = x0 + delta;
     for (int i = 0; i < N; i++) {
-        double separation = std::abs(x - y);
+        real separation = abs(x - y);
         //use quite_Nan in case sep = 0 
             if (separation > 0){
-                logSeparation.push_back(std::log(separation));
+                logSeparation.push_back(log(separation));
             }
             else {
-                logSeparation.push_back(std::numeric_limits<double>::quiet_NaN());
+                logSeparation.push_back(std::numeric_limits<real>::quiet_NaN());
             }   
         x = map_.iterate(x);
         y = map_.iterate(y);
@@ -74,11 +74,11 @@ std::vector<double> Analyzer::trajectoryDivergence(double x0, int N, double delt
     return logSeparation;
 }
 
-std::vector<double> Analyzer::invariantMeasure(double x0, int N, int bins) const {
-    std::vector<double> hist(bins, 0.0);
-    double low = map_.xmin();
-    double high = map_.xmax();
-    double x = x0;
+std::vector<real> Analyzer::invariantMeasure(real x0, int N, int bins) const {
+    std::vector<real> hist(bins, 0.0);
+    real low = map_.xmin();
+    real high = map_.xmax();
+    real x = x0;
     for (int i = 0; i < N; i++) {
         //retrieve the index of the bin the each iteration of the map
         //use static cast to convert to integer

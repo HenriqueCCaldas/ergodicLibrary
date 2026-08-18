@@ -12,23 +12,23 @@ class Analyzer {
 public:
 
     explicit Analyzer(const Map& map) : map_(map) {}
-    double birkhoffAverage(double x0, int N, const std::function<double(double)>& f) const;
+    real birkhoffAverage(real x0, int N, const std::function<real(real)>& f) const;
  
     // Birkhoff average convergence: returns vector of running averages
-    std::vector<double> birkhoffConvergence(double x0, int N, const std::function<double(double)>& f) const;
+    std::vector<real> birkhoffConvergence(real x0, int N, const std::function<real(real)>& f) const;
 
     // Maximal Lyapunov exponent in one dimension: (1/N) * sum log|DT(x_n)|
-    double lyapunovExponent(double x0, int N) const;
+    real lyapunovExponent(real x0, int N) const;
 
     //Running average of the Lyapunov Exponent
-    std::vector<double> lyapunovExponentConvergence(double x0, int N) const;
+    std::vector<real> lyapunovExponentConvergence(real x0, int N) const;
 
     //Trajectory divergence: log|x_n - y_n| for two orbits starting delta apart (x0, x0+delta).
-    std::vector<double> trajectoryDivergence(double x0, int N, double delta) const;
+    std::vector<real> trajectoryDivergence(real x0, int N, real delta) const;
 
     // Invariant measure: histogram of orbit visits over [xmin, xmax]
     // Returns normalized bin counts (approximates the invariant density)
-    std::vector<double> invariantMeasure(double x0, int N, int bins) const;
+    std::vector<real> invariantMeasure(real x0, int N, int bins) const;
  
 private:
     const Map& map_;  // taken as a reference pointing to the memory location of map used in the constructor
