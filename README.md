@@ -24,7 +24,8 @@ ergodicLibrary/
 ## Dependencies
 
 - C++17 compiler, CMake ≥ 3.16
-- **[Boost.Multiprecision](https://www.boost.org/doc/libs/release/libs/multiprecision/)** — provides the `real` type (`cpp_bin_float_100`) used in the library instead of `double`.
+- **[Boost.Multiprecision](https://www.boost.org/doc/libs/release/libs/multiprecision/)** — provides 
+sthe `real` type (`cpp_bin_float_100`) used in the library instead of `double`.
 - Fetched  via CMake `FetchContent`.
 
 ## Build
