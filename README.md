@@ -21,6 +21,12 @@ ergodicLibrary/
 └── main.cpp                    # Demo: currently available maps and modules
 ```
 
+## Dependencies
+
+- C++17 compiler, CMake ≥ 3.16
+- **[Boost.Multiprecision](https://www.boost.org/doc/libs/release/libs/multiprecision/)** — provides the `real` type (`cpp_bin_float_100`) used in the library instead of `double`.
+- Fetched  via CMake `FetchContent`.
+
 ## Build
 
 ```bash
@@ -99,19 +105,28 @@ rm -rf data
 
 ## Numerical considerations
 
+
 ### Floating point 
 
 - For chaotic maps like the Doubling map, floating point introduces 
-a fundamental limitation. Since `x0 = 0.2` cannot be represented exactly in 
-binary, the stored value carries a small error `ε`. The Doubling map 
-multiplies by 2 at each step, so this error grows as `2^n*ε` - exactly the rate 
-predicted by the Lyapunov exponent `λ = ln 2 ≈ 0.693`. After ~50 iterations 
-the error dominates and the orbit collapses to 0.
-- Consider using different initial conditions that are binary friendly, as `x0 = 0.125`
+a fundamental limitation regardless of precision. Since `x0 = 0.2` cannot be represented exactly in 
+binary, the stored value carries a small error `ε`. The Doubling map multiplies by 2 at each step, 
+so this error grows as `2^n*ε` - exactly the rate predicted by the Lyapunov exponent `λ = ln 2 ≈ 0.693`. 
+With `double` (16 digits), the error dominates after ~50 iterations and the orbit collapses to 0; 
+with `cpp_bin_float_100` (~100 digits), this instead happens around n ≈ 100 · log₂(10) ≈ 330 iterations —
+which is why `main.cpp` runs `N = 300`, staying just inside the precision window.
+
+### Arbitrary precision (Boost.Multiprecision)
+
+- All map and variables uses `real = boost::multiprecision::cpp_bin_float_100` (100 digits) instead 
+of `double` (16 digit).
+- **Always construct `real` values from a string literal**, e.g. `real x0("0.2")`, never `real x0 = 0.2`.
+ This allows to parse the value in its at the precision from `real`.
 
 
 ## Note on AI usage
 The plotting files were generated with assistance from Claude to better represent the data generated.
 
-This README file was also written with assistance from Claude. The rest of the code was manually designed as exercise, Claude was punctually used to help debugging the software.
+This README file was also written with assistance from Claude. The rest of the code was manually designed as exercise,
+Claude was punctually used to help debugging the software.
 
