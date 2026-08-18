@@ -14,7 +14,6 @@ using real = boost::multiprecision::cpp_bin_float_100;
 // use polymorphism in classicMaps.h and .cpp to replace the virtual methods iterate (), derivative and name;
 // using const methods to guarantee no member of the class is changed when called
 
-
 class Map {
 public:
     //Phase space bounds [xmin, xmax]

@@ -4,7 +4,8 @@
 std::string Map::hashKey() const {
     std::string key = tag_;
     for (real p : params_) key += p.str(2, std::ios_base::fixed)+ "_";
-    return key;
+    if(params_.size()!=0){return key.substr(0,key.size()-1);}
+    else{return key;}
 }
 
 // Generate an orbit of length n starting from x0
