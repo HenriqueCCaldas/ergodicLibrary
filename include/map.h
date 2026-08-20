@@ -42,9 +42,11 @@ public:
     std::vector<real> orbit(real x0, int n) const;
 
 protected:
+    //CONSTRUCTOR
     //To change any params in the derived class, use this constructor 
     //to have access to the params_ methods from the base class
     Map(std::string tag, std::vector<real> params): tag_(std::move(tag)), params_(std::move(params)) {}
+    
     //The derived classes must have an alias parameter as a member for these parameters stores in the params vector
     std::vector<real>& params() {return params_;}
 private:

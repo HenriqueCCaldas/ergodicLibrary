@@ -57,7 +57,8 @@ public:
     : Map("gaussIterated", {alpha, beta}), 
     alpha_(params()[0]), 
     beta_(params()[1]) {};
-        real iterate(real x) const override {
+    
+    real iterate(real x) const override {
         return exp(-alpha_ * x * x) + beta_;
     }
     real derivative(real x) const override {
