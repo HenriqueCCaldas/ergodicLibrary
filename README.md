@@ -1,6 +1,6 @@
 # Ergodic Theory Library — C++
 
-A computational library for numerically investigating ergodic properties of discrete dynamical maps.
+A computational library for numerically investigating ergodic properties of 1D discrete dynamical maps.
 
 ## Structure
 ```
