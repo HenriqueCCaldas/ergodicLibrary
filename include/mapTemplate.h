@@ -33,7 +33,7 @@ template <size_t dim> class Map{
         virtual point iterate(point x) const = 0;
 
         // Jacobian of the map T at x: DT(x)
-        virtual matrix jacobian(real x) const = 0;
+        virtual matrix jacobian(point x) const = 0;
 
         // Output Name for output/plots (NOT the hashKey)
         virtual std::string name() const = 0;
@@ -46,7 +46,7 @@ template <size_t dim> class Map{
         std::vector<point> orbit(point x0, int n) const;
 
     protected:
-    
+
         //To change any params in the derived class, use this constructor
         //to have access to the params_ methods from the base class
         Map(std::string tag, std::vector<real> params): tag_(std::move(tag)), params_(std::move(params)) {}
