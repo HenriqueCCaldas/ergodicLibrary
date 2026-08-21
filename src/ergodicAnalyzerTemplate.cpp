@@ -1,0 +1,2 @@
+#include "../include/ergodicAnalyzerTemplate.h"
+

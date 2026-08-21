@@ -35,6 +35,7 @@ add_library(ergodic_core
     src/classicMaps.cpp
     src/mapTemplate.cpp
     src/classicMaps2D.cpp
+    src/ergodicAnalyzerTemplate.cpp
 )
 target_include_directories(ergodic_core PUBLIC ${CMAKE_SOURCE_DIR}/include)
 target_link_libraries(ergodic_core PUBLIC Boost::multiprecision Boost::config)
