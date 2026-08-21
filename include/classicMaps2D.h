@@ -30,14 +30,14 @@ public:
 
 class RulkovMap : public Map2D{
     real& alpha_;
-    real& lambda_;
+    real& mu_;
     real& sigma_;
 
     public:
-        explicit RulkovMap(real alpha, real lambda,real sigma):
-            Map2D("rulkovMap",{alpha,lambda,sigma}),
+        explicit RulkovMap(real alpha, real mu,real sigma):
+            Map2D("rulkovMap",{alpha,mu,sigma}),
             alpha_(params()[0]),
-            lambda_(params()[1]),
+            mu_(params()[1]),
             sigma_(params()[2]) {};
     //Relevant phase space
     point xmin() const override {return {real("-5"), real("5")};}
@@ -49,7 +49,7 @@ class RulkovMap : public Map2D{
     matrix jacobian (point x) const override;
 
     std::string name() const override{
-        return ("Rulkov at (" + alpha_.str() + ", " + lambda_.str() + ", " + sigma_.str() + ")");
+        return ("Rulkov at (" + alpha_.str() + ", " + mu_.str() + ", " + sigma_.str() + ")");
     }
 
 };
