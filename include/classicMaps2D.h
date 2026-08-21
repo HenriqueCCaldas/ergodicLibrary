@@ -27,3 +27,29 @@ public:
         return ("Henon Map at (" + alpha_.str() + "," + beta_.str() + ')');
     }
 };
+
+class RulkovMap : public Map2D{
+    real& alpha_;
+    real& lambda_;
+    real& sigma_;
+
+    public:
+        explicit RulkovMap(real alpha, real lambda,real sigma):
+            Map2D("rulkovMap",{alpha,lambda,sigma}),
+            alpha_(params()[0]),
+            lambda_(params()[1]),
+            sigma_(params()[2]) {};
+    //Relevant phase space
+    point xmin() const override {return {real("-5"), real("5")};}
+    point xmax() const override {return {real("3"), real("3")};}
+
+    //Update iterate and jacobian to reflet the corret implementations for the Rulkov Map
+    point iterate(point x) const override;
+
+    matrix jacobian (point x) const override;
+
+    std::string name() const override{
+        return ("Rulkov at (" + alpha_.str() + ", " + lambda_.str() + ", " + sigma_.str() + ")");
+    }
+
+};
