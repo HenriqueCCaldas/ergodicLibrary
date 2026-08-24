@@ -20,9 +20,10 @@ Map2D::point RulkovMap::iterate(point x) const {
 }
 
 Map2D::matrix RulkovMap::jacobian(point x) const{
+    real denom = real("1") + x[0]*x[0];
     return {{
-        {(-real("2")*alpha_*(x[0]/(real("1") + (x[0]*x[0])))), 1},
-        {-mu_, 1}
+        {(-real("2")*alpha_*(x[0]/(denom*denom))), real("1")},
+        {-mu_, real("1")}
     }};
 }
 
