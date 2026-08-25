@@ -8,9 +8,7 @@
 template <size_t dim> class Analyzer{
     private:
         const Map<dim>& map_;
-        
     public:
-
         explicit Analyzer(const Map<dim>& map): map_(map){};
         
         real birkhoffAverage(typename Map<dim>::point x0, int N,
@@ -20,7 +18,9 @@ template <size_t dim> class Analyzer{
         std::vector<real> birkhoffConvergence(typename Map<dim>::point x0, int N, const std::function<real(typename Map<dim>::point)>& f) const;
 
         //Trajectory divergence: log|x_n - y_n| for two orbits starting delta apart (x0, x0+delta).
-        std::vector<typename Map<dim>::point> trajectoryDivergence(point x0, int N, point delta) const;
+        std::vector<real> trajectoryDivergence(typename Map<dim>::point x0, int N,typename Map<dim>::point delta) const;
 
 };
 
+using Analyzer1D = Analyzer<1>;
+using Analyzer2D = Analyzer<2>;
