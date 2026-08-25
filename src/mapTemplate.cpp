@@ -26,3 +26,7 @@ std::vector<typename Map<dim>::point> Map<dim>::orbit(Map<dim>::point x0, int n)
     }
     return orb;
 }
+
+//to make sure these methods are called from main properly
+template class Map<1>;
+template class Map<2>;
