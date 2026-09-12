@@ -20,11 +20,6 @@ template <size_t dim> class Analyzer{
         //Trajectory divergence: log|x_n - y_n| for two orbits starting delta apart (x0, x0+delta).
         std::vector<real> trajectoryDivergence(typename Map<dim>::point x0, int N,typename Map<dim>::point delta) const;
 
-        // Full Lyapunov spectrum via the Benettin/QR method (Oseledets theorem):
-        // propagate an orthonormal tangent basis through DT(x_n), re-orthonormalize
-        // via QR at every step, and average the log of the diagonal stretch factors.
-        std::array<real, dim> lyapunovSpectrum(typename Map<dim>::point x0, int N) const;
-
 };
 
 using Analyzer1D = Analyzer<1>;

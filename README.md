@@ -54,14 +54,9 @@ pip install matplotlib pandas
 cmake --build build --target plot
 ```
 
-To run simultaneosly the simulation and the ergodic analysis
+To run simultaneosly
 ```bash
-cmake --build build --target run_and_plot_ergodic
-```
-
-To run simultaneosly the simulation and plot the trajectory
-```bash
-cmake --build build --target run_and_plot_trajectory
+cmake --build build --target run_and_plot
 ```
 
 ## Clean 

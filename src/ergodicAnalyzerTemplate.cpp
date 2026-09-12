@@ -60,66 +60,6 @@ std::vector<real> Analyzer<dim>::trajectoryDivergence(typename Map<dim>::point x
         return logseparation;
 };
 
-// Full Lyapunov spectrum via the Benettin/QR method.
-template <size_t dim>
-std::array<real, dim> Analyzer<dim>::lyapunovSpectrum(typename Map<dim>::point x0, int N) const{
-    using matrix = typename Map<dim>::matrix;
-    // Q holds an orthonormal tangent basis: Q[i][k] is component i of basis vector k,
-    matrix Q{};
-    //Initialiaze the Q as the identity
-    for (size_t i = 0; i < dim; i++) Q[i][i] = real("1.0");
-
-    std::array<real, dim> sumLog{};
-    for (size_t i = 0; i < dim; i++) sumLog[i] = real("0.0");
-
-
-    typename Map<dim>::point x = x0;
-
-    for (int n = 0; n < N; n++) {
-        matrix J = map_.jacobian(x);
-
-        // Propagate the basis: W = J * Q
-        matrix W{};
-        for (size_t i = 0; i < dim; i++) {
-            for (size_t k = 0; k < dim; k++) {
-                real acc = real("0.0");
-                for (size_t j = 0; j < dim; j++) {
-                    acc += J[i][j] * Q[j][k];
-                }
-                W[i][k] = acc;
-            }
-        }
-
-        // Modified Gram-Schmidt QR: re-orthonormalize the columns of W into Q,
-        // accumulating the log of each column's residual norm (= R's diagonal).
-        for (size_t k = 0; k < dim; k++) {
-            std::array<real, dim> v;
-            for (size_t i = 0; i < dim; i++) v[i] = W[i][k];
-
-            for (size_t j = 0; j < k; j++) {
-                real proj = real("0.0");
-                for (size_t i = 0; i < dim; i++) proj += Q[i][j] * v[i];
-                for (size_t i = 0; i < dim; i++) v[i] -= proj * Q[i][j];
-            }
-
-            real norm = real("0.0");
-            for (size_t i = 0; i < dim; i++) norm += v[i] * v[i];
-            norm = sqrt(norm);
-
-            for (size_t i = 0; i < dim; i++) Q[i][k] = v[i] / norm;
-            sumLog[k] += log(norm);
-        }
-
-        x = map_.iterate(x);
-    }
-
-    std::array<real, dim> lambda;
-    for (size_t i = 0; i < dim; i++){
-         lambda[i] = sumLog[i] / N;
-    }
-    return lambda;
-}
-
 //To make sure the methods defined in this cpp are properly called from main
 template class Analyzer<1>;
 template class Analyzer<2>;

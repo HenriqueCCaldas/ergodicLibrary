@@ -50,7 +50,7 @@ int main() {
         real x0("0.2");
         //Define the number of map iterations N
 
-        int N = 1000;
+        int N = 300;
        
         auto entryOrbit = map->orbit(x0, N);
         std::cout << "First "<< std::to_string(N) << " iterates from x0 = " << x0.str() << std::endl;
